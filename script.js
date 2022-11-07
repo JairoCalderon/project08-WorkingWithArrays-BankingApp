@@ -76,18 +76,22 @@ const displayMovements = (movements) => {
     `;
 
     containerMovements.insertAdjacentHTML("afterbegin", html)
-
-
   })
-
-  // accounts.forEach((account) => {
-  //   const { owner, movements, interestRate, pin } = account;
-
-  // })
 
 }
 
 displayMovements(account1.movements);
+
+const calcDisplayBalance = (movements) => {
+  const balance = movements.reduce((acc, cur) => {
+    return acc + cur
+  }, 0)
+
+  labelBalance.textContent = balance
+}
+
+calcDisplayBalance(account1.movements);
+
 
 const createUsernames = (accs) => {
   accs.forEach((acc) => {
@@ -95,9 +99,9 @@ const createUsernames = (accs) => {
   })
 }
 
-
 createUsernames(accounts);
-console.log(accounts);
+
+
 
 
 
@@ -188,57 +192,7 @@ console.log(accounts);
 /////////////////////////////////////////////////
 // LECTURES
 
-// const currencies = new Map([
-//   ['USD', 'United States dollar'],
-//   ['EUR', 'Euro'],
-//   ['GBP', 'Pound sterling'],
-// ]);
-
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
-// const eurToUsd = 1.1
-
-// const movementsUSD = movements.map(mov => mov * eurToUsd)
-
-// console.log(movements);
-// console.log(movementsUSD);
-
-// const movementsUSDfor = []
-
-// for (const mov of movements) movementsUSDfor.push(mov * eurToUsd)
-
-// console.log(movementsUSDfor);
-
-
-
 /////////////////////////////////////////////////
-
-// const dogsJuliaT1 = [3, 5, 2, 12, 7]
-// const dogsKateT1 = [4, 1, 15, 8, 3]
-// const dogsJuliaT2 = [9, 16, 6, 8, 3]
-// const dogsKateT2 = [10, 5, 6, 1, 4]
-
-// const checkDogs = (array1, array2) => {
-
-//   const newDogsJulias = [...array1]
-
-//   newDogsJulias.splice(0, 1);
-//   // newDogsJulias.splice(-2);
-//   // newDogsJulias.slice(1, 3);
-
-//   // const superArray = [...newDogsJulias, ...array2];
-//   const superArray = newDogsJulias.concat(array2);
-
-//   superArray.forEach((dogAge, i) => {
-//     if (dogAge >= 3) {
-//       console.log(`Dog number ${i + 1} is an adult, and is ${dogAge} years old`);
-//     } else {
-//       console.log(`Dog number ${i + 1} is a puppy, and is ${dogAge} years old`);
-//     }
-//   })
-// }
-// checkDogs(dogsJuliaT1, dogsKateT1)
-// checkDogs(dogsJuliaT2, dogsKateT2)
 
 // const calcAverageHumanAge = (ages) => {
 //   //ANOTHER WAY TO DO THE SAME
@@ -382,8 +336,8 @@ const withdrawal = movements.filter((mov) => {
   return mov < 0
 })
 
-console.log(deposits);
-console.log(withdrawal);
+// console.log(deposits);
+// console.log(withdrawal);
 
 
 ////////// CODE CHALLENGE 1 ///////
@@ -403,4 +357,23 @@ console.log(withdrawal);
 // console.log(dogsJulia);
 
 
+const balance = movements.reduce((acc, cur, i, arraY) => {
+  return acc + cur
+}, 0)
 
+console.log(balance);
+
+let newBal = 0
+for (const [i, item] of movements.entries()) {
+  console.log(`movimentacao ${i + 1}: ${newBal += item}`);
+  // newBal += item;
+  // console.log(newBal);
+}
+
+const max = movements.reduce((acc, mov) => {
+  if (acc > mov) {
+    return acc
+  } else {
+    return mov
+  }
+}, mov[0])
