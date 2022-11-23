@@ -87,11 +87,26 @@ const calcDisplayBalance = (movements) => {
     return acc + cur
   }, 0)
 
-  labelBalance.textContent = balance
+  labelBalance.textContent = `${balance} EUR`
 }
 
 calcDisplayBalance(account1.movements);
 
+const calcDisplaySumary = (movements) => {
+  const incomes = movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}`;
+
+  const out = movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}`;
+
+  const interest = movements.filter(mov => mov > 0).map(deposit => deposit * 1.2 / 100).filter((int, i, arr) => {
+    console.log(arr);
+    return int >= 1;
+  }).reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest}`
+}
+
+calcDisplaySumary(account1.movements);
 
 const createUsernames = (accs) => {
   accs.forEach((acc) => {
@@ -101,7 +116,10 @@ const createUsernames = (accs) => {
 
 createUsernames(accounts);
 
+const eurToUsd = 1.1
+const totalDepositsUSD = movements.filter(mov => mov > 0).map(mov => mov * eurToUsd).reduce((acc, mov) => acc + mov, 0);
 
+console.log(totalDepositsUSD);
 
 
 
@@ -341,39 +359,60 @@ const withdrawal = movements.filter((mov) => {
 
 
 ////////// CODE CHALLENGE 1 ///////
-// const dogsJulia = [3, 5, 2, 12, 17];
-// const dogsKate = [4, 1, 15, 6, 3];
+const dogsJulia = [3, 5, 2, 12, 17];
+const dogsKate = [4, 1, 15, 6, 3];
 
-// const checkDogs = (juArr, katArr) => {
-//   const dogJuliaCopy = juArr.slice(1, -2);
+const checkDogs = (juArr, katArr) => {
+  const dogJuliaCopy = juArr.slice(1, -2);
 
-//   const allDogs = [...dogJuliaCopy, ...katArr];
-//   allDogs.forEach((dogAge, i) => {
-//     console.log(dogAge >= 3 ? `Dog number ${i + 1} is an adult, and is ${dogAge} years old` : `Dog number ${i + 1} is still a puppy`);
-//   });
-// };
+  const allDogs = [...dogJuliaCopy, ...katArr];
+  allDogs.forEach((dogAge, i) => {
+    console.log(dogAge >= 3 ? `Dog number ${i + 1} is an adult, and is ${dogAge} years old` : `Dog number ${i + 1} is still a puppy`);
+  });
+};
 
-// checkDogs(dogsJulia, dogsKate)
-// console.log(dogsJulia);
+checkDogs(dogsJulia, dogsKate)
+console.log(dogsJulia);
 
+////////// CODE CHALLENGE 2 ///////
+const calcAverageHumanAge = (agesArr) => {
+  const humanAges = agesArr.map((age) => {
+    return age <= 2 ? age * 2 : 16 + age * 4
+  })
+  const adultAge = humanAges.filter((age) => {
+    return age > 18
+  })
+  const adultAvg = adultAge.reduce((acc, curr) => {
+    return acc + curr
+  }, adultAge[0]) / adultAge.length;
 
-const balance = movements.reduce((acc, cur, i, arraY) => {
-  return acc + cur
-}, 0)
+  console.log(humanAges);
+  console.log(adultAge);
+  console.log(adultAvg);
 
-console.log(balance);
-
-let newBal = 0
-for (const [i, item] of movements.entries()) {
-  console.log(`movimentacao ${i + 1}: ${newBal += item}`);
-  // newBal += item;
-  // console.log(newBal);
 }
 
-const max = movements.reduce((acc, mov) => {
-  if (acc > mov) {
-    return acc
-  } else {
-    return mov
-  }
-}, mov[0])
+const test1 = [5, 2, 4, 1, 15, 8, 3]
+calcAverageHumanAge(test1)
+
+
+// const balance = movements.reduce((acc, cur, i, arraY) => {
+//   return acc + cur
+// }, 0)
+
+// console.log(balance);
+
+// let newBal = 0
+// for (const [i, item] of movements.entries()) {
+//   console.log(`movimentacao ${i + 1}: ${newBal += item}`);  
+// }
+
+// const max = movements.reduce((acc, mov) => {
+//   if (acc > mov) {
+//     return acc
+//   } else {
+//     return mov
+//   }
+// }, movements[0])
+
+// console.log(max);
